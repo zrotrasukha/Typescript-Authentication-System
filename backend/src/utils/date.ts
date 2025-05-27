@@ -6,3 +6,7 @@ export const oneYearFromNow = () =>
 
 export const fifteenminutesFromNow = () =>
   new Date(Date.now() + 15 * 60 * 1000);
+export const tenmintuseFromNow = () => 
+  new Date(Date.now() + 10 * 60 * 1000);
+
+export const msInADay = 24 * 60 * 60 * 1000;
