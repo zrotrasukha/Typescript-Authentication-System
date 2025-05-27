@@ -1,6 +1,8 @@
 import { ErrorRequestHandler, Response } from "express";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/statusCodes";
 import { ZodError } from "zod/v4";
+import AppError from "../utils/AppError";
+import { deleteAuthCookies, REFRESH_PATH } from "../utils/cookies";
 
 const handleZodError = (error: ZodError, res: Response) => {
   const errors = error.issues.map((issue) => ({
@@ -13,13 +15,26 @@ const handleZodError = (error: ZodError, res: Response) => {
     errors,
   })
 }
-
+const handlerAppError = (res: Response, error: AppError) => {
+  return res.status(error.httpCode).json({
+    message: error.message,
+    errorCode: error.errorCode,
+  })
+}
 const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  console.log(`Path ${req.path} not found`, error);
+
+  if( req.path === REFRESH_PATH ) {
+    deleteAuthCookies(res); 
+  } 
   if (error instanceof ZodError) {
     handleZodError(error, res);
     return;
   }
-  console.log(`Path ${req.path} not found`, error);
+  if (error instanceof AppError) {
+    handlerAppError(res, error);
+    return;
+  }
   res.status(INTERNAL_SERVER_ERROR).send("Internal Server Error");
   return;
 }
