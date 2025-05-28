@@ -23,7 +23,8 @@ export const getSessionsHandler = catchErrors(async (req, res) => {
 
     return res.status(OK).json(sessions.map((session) => ({
         ...session.toObject(),
-        ...(session._id === req.sessionId &&
+        ...(session.id === req.sessionId &&
+            // here _id is ObjectId, but there is a built in method in mongoose which is .id() that gives us the string representation of the ObjectId, therefore _id won't work in here
         {
             isCurrent: true
         })
@@ -35,9 +36,11 @@ export const getSessionsHandler = catchErrors(async (req, res) => {
 
 export const deleteSessionHandler = catchErrors(async (req, res) => {
     const sessionId = z.string().parse(req.params.id);
+
     const deletedSession = await sessionModel.findOneAndDelete({
         _id: sessionId,
-    })
+        userId: req.userId,
+    }); 
     appAssert(
         deletedSession,
         NOT_FOUND,

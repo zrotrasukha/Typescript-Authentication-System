@@ -4,6 +4,6 @@ import { deleteSessionHandler, getSessionsHandler } from '../controllers/session
 const sessionRouter = Router();
 
 sessionRouter.get("/", getSessionsHandler);
-sessionRouter.get("/deleteSession", deleteSessionHandler);
+sessionRouter.delete("/:id", deleteSessionHandler);
 
 export default sessionRouter; 
