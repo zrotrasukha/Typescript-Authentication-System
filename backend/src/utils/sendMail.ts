@@ -23,3 +23,4 @@ export const sendMail = async ({ to, text, subject, html }: emailParams) => {
   })
   return { emailData };
 }
+
