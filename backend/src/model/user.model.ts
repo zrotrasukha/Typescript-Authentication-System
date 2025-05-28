@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { hashePassword } from '../utils/bcrypt';
+import { hashPassword } from '../utils/bcrypt';
 
 
 //NOTE: if you creating a new method under a schema, you need to add it to the interface as well, otherwise, typescript will not recognize it and will throw an error.
@@ -27,12 +27,12 @@ export const userSchema = new mongoose.Schema<UserDocument>(
 
 userSchema.pre("save", async function(next) {
   if (!this.isModified("password")) return next();
-  this.password = await hashePassword(this.password);
+  this.password = await hashPassword(this.password);
   return next();
 })
 
 userSchema.methods.comparePassword = async function(password: string) {
-  return await hashePassword(password, this.passwword);
+  return await hashPassword(password, this.passwword);
 }
 
 userSchema.methods.omitPassword = function() {
