@@ -1,7 +1,8 @@
+import mongoose from "mongoose";
 import { z } from "zod/v4";
 
-const emailSchema = z.email().min(3).max(255);
-const passwordSchema = z.string().min(8).max(255);
+export const emailSchema = z.email().min(3).max(255);
+export const passwordSchema = z.string().min(8).max(255);
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -20,4 +21,16 @@ export const registerSchema = loginSchema.extend({
 
 
 // max is set to be 24 because when we are creating a user, we generate a verificationDocument along with the user, and the id of the verificationDocument is a random string of 24 characters.
-export const verificationSchema = z.string().min(1).max(24); 
+export const verificationSchema = z.string().min(1).max(24);
+
+export const resetPasswordSchema = z.object({
+  verificationCode: verificationSchema,
+  password: passwordSchema,
+})
+
+
+//types 
+export type payloadType = {
+  userId: mongoose.Types.ObjectId;
+  sessionId: mongoose.Types.ObjectId;
+}
