@@ -11,7 +11,7 @@ import { getPasswordResetTemplate, getVerifyEmailTemplate } from "../utils/email
 import { APP_ORIGIN } from "../constants/env";
 import { resetPasswordSchema } from "../controllers/auth.schema";
 import { z } from "zod/v4";
-import { hashpassword } from "../utils/bcrypt";
+import { hashPassword } from "../utils/bcrypt";
 
 export type createUser = {
   email: string;
@@ -268,7 +268,7 @@ export const resetPassword = async ({ password, verificationCode }: resetType) =
 
   const updatedUser = await UserModel.findByIdAndUpdate(
     validCode.userId,
-    { password: await hashpassword(password) },
+    { password: await hashPassword(password) },
     { new: true }
   );
 
