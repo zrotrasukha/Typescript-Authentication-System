@@ -6,8 +6,6 @@ import { APP_ORIGIN, PORT } from './constants/env';
 import cors from 'cors';
 import cookie from 'cookie-parser';
 import errorHandler from './middleware/errorHandler';
-import catchErrors from './utils/catchError';
-import { OK } from './constants/statusCodes';
 import authRouter from './router/auth.router';
 import userRoutender from './router/user.router';
 import authenticate from './middleware/authenticate';
@@ -20,14 +18,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: APP_ORIGIN,
   credentials: true,
+
 }))
 app.use(cookie());
 
 // Routes
 app.use('/auth', authRouter);
-app.use('/user',authenticate, userRoutender);
-app.use('/sessions', authenticate, sessionRouter);  
-app.use('/health', healthCheckRouter); 
+app.use('/user', authenticate, userRoutender);
+app.use('/sessions', authenticate, sessionRouter);
+app.use('/health', healthCheckRouter);
 
 //NOTE: coolest shit I learned in this project 
 // error handling middleware

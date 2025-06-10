@@ -5,7 +5,7 @@ import { deleteAuthCookies, getAccessTokenCookieOptions, getRefreshTokenCookieOp
 import { emailSchema, registerSchema, resetPasswordSchema } from "./auth.schema";
 import { loginSchema } from "./auth.schema";
 import appAssert from "../utils/AppAssert";
-import { refreshTokenPayload, verifyToken } from "../utils/jwt";
+import { verifyToken } from "../utils/jwt";
 import sessionModel from "../model/session.model";
 import { verificationSchema } from "./auth.schema";
 export const registerHandler = catchErrors(async (req, res) => {

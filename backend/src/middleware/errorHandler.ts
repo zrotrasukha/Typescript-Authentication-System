@@ -21,7 +21,7 @@ const handlerAppError = (res: Response, error: AppError) => {
     errorCode: error.errorCode,
   })
 }
-const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
+const errorHandler: ErrorRequestHandler = (error, req, res, _) => {
   console.log(`Path ${req.path} not found`, error);
 
   if( req.path === REFRESH_PATH ) {

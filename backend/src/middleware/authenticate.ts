@@ -5,7 +5,7 @@ import appAssert from "../utils/AppAssert";
 import catchErrors from "../utils/catchError";
 import { verifyToken } from "../utils/jwt";
 
-const authenticate = catchErrors(async (req, res, next) => {
+const authenticate = catchErrors(async (req, _, next) => {
   const accessToken = req.cookies.accessToken as string | undefined;
   appAssert(
     accessToken,
